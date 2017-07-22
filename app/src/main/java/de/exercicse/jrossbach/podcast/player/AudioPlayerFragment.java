@@ -1,4 +1,4 @@
-package de.exercicse.jrossbach.podcast;
+package de.exercicse.jrossbach.podcast.player;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,9 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 
-/**
- * Created by jrossbach on 15.07.17.
- */
+import de.exercicse.jrossbach.podcast.R;
+
 
 public class AudioPlayerFragment extends Fragment {
 

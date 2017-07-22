@@ -1,10 +1,12 @@
-package de.exercicse.jrossbach.podcast;
+package de.exercicse.jrossbach.podcast.search;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import de.exercicse.jrossbach.podcast.R;
 
 /**
  * Created by jrossbach on 16.07.17.

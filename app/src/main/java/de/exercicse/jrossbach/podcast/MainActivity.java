@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 
+import de.exercicse.jrossbach.podcast.search.SearchPodcastFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout container;
@@ -29,15 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void replaceCurrentFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment).addToBackStack(fragment.getTag()).commit();
+        fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null).commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
-    }
 }

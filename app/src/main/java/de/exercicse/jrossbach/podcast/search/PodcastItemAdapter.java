@@ -1,20 +1,20 @@
-package de.exercicse.jrossbach.podcast;
+package de.exercicse.jrossbach.podcast.search;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jrossbach on 15.07.17.
- */
+import de.exercicse.jrossbach.podcast.R;
+
 
 public class PodcastItemAdapter extends RecyclerView.Adapter<PodcastItemViewHolder> {
 
 
-    private List<PodcastItemVieModel> podcastItemVieModelList;
+    private List<PodcastItemVieModel> podcastItemVieModelList = new ArrayList<>();
 
     @Override
     public PodcastItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,6 +36,5 @@ public class PodcastItemAdapter extends RecyclerView.Adapter<PodcastItemViewHold
 
     public void setItems(List<PodcastItemVieModel> podcastItems){
         this.podcastItemVieModelList = podcastItems;
-        notifyDataSetChanged();
     }
 }

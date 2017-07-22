@@ -1,4 +1,4 @@
-package de.exercicse.jrossbach.podcast;
+package de.exercicse.jrossbach.podcast.network;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -22,41 +22,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-/**
- * Created by jrossbach on 16.07.17.
- */
 
 public class XMLParser {
-
-    public String getXmlFromUrl(@NonNull String url) throws IOException {
-        String xml;
-        BufferedReader reader = null;
-        try {
-            HttpURLConnection conn = (HttpURLConnection) (new URL(url)).openConnection();
-            InputStream inputStream = conn.getInputStream();
-            if(inputStream!=null) {
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                final StringBuffer sb = new StringBuffer();
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-                xml = sb.toString();
-                return xml;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-
-            if (reader != null) {
-                reader.close();
-            }
-        }
-        return null;
-    }
-
 
     public Document getDomElement(String xml) {
         Document document = null;

@@ -1,4 +1,4 @@
-package de.exercicse.jrossbach.podcast;
+package de.exercicse.jrossbach.podcast.search;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,13 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import de.exercicse.jrossbach.podcast.MainActivity;
+import de.exercicse.jrossbach.podcast.R;
 
 
 public class SearchPodcastFragment extends Fragment {
@@ -56,9 +52,7 @@ public class SearchPodcastFragment extends Fragment {
 
     private void search(String searchString) {
         Toast.makeText(getActivity(), "Searching... "+ searchString, Toast.LENGTH_LONG).show();
-        RetrieveXmlTask retrieveXmlTask = new RetrieveXmlTask(searchString);
-        retrieveXmlTask.doInBackground(null);
-        ((MainActivity)getActivity()).replaceCurrentFragment(PodcastListFragment.newInstance(retrieveXmlTask.getPodcastItems()));
-
+        PodcastListFragment podcastListFragment = PodcastListFragment.newInstance(searchString);
+        ((MainActivity)getActivity()).replaceCurrentFragment(podcastListFragment);
     }
 }

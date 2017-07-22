@@ -1,4 +1,4 @@
-package de.exercicse.jrossbach.podcast;
+package de.exercicse.jrossbach.podcast.search;
 
 import android.widget.ImageView;
 
