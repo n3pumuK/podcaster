@@ -1,5 +1,6 @@
 package de.exercicse.jrossbach.podcast.player;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ public class AudioPlayerFragment extends Fragment {
     Button playButton;
     Button stopButton;
     SeekBar seekBar;
+    private MediaPlayer player;
 
     public final String PODCAST_URL = "http://pc.argudiss.de";
 

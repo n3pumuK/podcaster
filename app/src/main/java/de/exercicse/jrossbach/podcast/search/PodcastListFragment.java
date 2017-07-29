@@ -8,11 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
 import de.exercicse.jrossbach.podcast.R;
-import de.exercicse.jrossbach.podcast.network.RetrieveXmlTask;
+import de.exercicse.jrossbach.podcast.network.LoadPodcastItemsTask;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 
 public class PodcastListFragment extends Fragment implements PodcastItemsView{
@@ -21,6 +25,7 @@ public class PodcastListFragment extends Fragment implements PodcastItemsView{
     PodcastItemAdapter adapter;
     List<PodcastItemVieModel> itemList;
     private static String PODCAST_URL;
+    ProgressBar progressBar;
 
     public static PodcastListFragment newInstance(String url){
         PodcastListFragment fragment = new PodcastListFragment();
@@ -43,8 +48,9 @@ public class PodcastListFragment extends Fragment implements PodcastItemsView{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.podcast_recycler_view);
+        progressBar = view.findViewById(R.id.progress_bar);
         initRecyclerView();
-        initItems();
+        loadItems();
     }
 
     @Override
@@ -57,19 +63,24 @@ public class PodcastListFragment extends Fragment implements PodcastItemsView{
     }
 
     private void initRecyclerView() {
-        adapter = new PodcastItemAdapter();
+        adapter = new PodcastItemAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
 
-    private void initItems(){
-        RetrieveXmlTask retrieveXmlTask = new RetrieveXmlTask(PODCAST_URL, this);
-        retrieveXmlTask.execute();
+    private void loadItems(){
+        LoadPodcastItemsTask loadPodcastItemsTask = new LoadPodcastItemsTask(PODCAST_URL, this);
+        loadPodcastItemsTask.execute();
     }
 
     @Override
     public void onItemsLoadedSuccessfully(List<PodcastItemVieModel> podcastItemVieModels) {
         adapter.setItems(podcastItemVieModels);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showProgress(boolean show) {
+        progressBar.setVisibility(show ? VISIBLE : GONE);
     }
 }
