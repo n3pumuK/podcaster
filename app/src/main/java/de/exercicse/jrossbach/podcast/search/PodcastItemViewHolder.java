@@ -14,21 +14,21 @@ import de.exercicse.jrossbach.podcast.R;
 
 public class PodcastItemViewHolder<PodcastItemViewModel> extends RecyclerView.ViewHolder {
 
-    View itemView;
     ImageView itemImage;
     TextView itemTitleTextView;
     String itemImageUrl;
-    String itemTitel;
+    TextView itemCategoryTextView;
     CardView cardView;
+    TextView itemDateTextView;
 
 
     public PodcastItemViewHolder(View itemView) {
         super(itemView);
-        this.itemView = itemView;
         cardView = itemView.findViewById(R.id.item_card_view);
         itemImage = itemView.findViewById(R.id.item_image);
         itemTitleTextView = itemView.findViewById(R.id.item_title_text_view);
-
+        itemCategoryTextView = itemView.findViewById(R.id.item_category_text_view);
+        itemDateTextView = itemView.findViewById(R.id.item_date_text_view);
     }
 
 }

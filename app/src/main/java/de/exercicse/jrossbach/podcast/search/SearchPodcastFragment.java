@@ -51,7 +51,7 @@ public class SearchPodcastFragment extends Fragment {
     }
 
     private void search(String searchString) {
-        Toast.makeText(getActivity(), "Searching... "+ searchString, Toast.LENGTH_LONG).show();
+       // Toast.makeText(getActivity(), "Searching... "+ searchString, Toast.LENGTH_LONG).show();
         PodcastListFragment podcastListFragment = PodcastListFragment.newInstance(searchString);
         ((MainActivity)getActivity()).replaceCurrentFragment(podcastListFragment);
     }
