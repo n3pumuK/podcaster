@@ -16,7 +16,6 @@ public class PodcastItemViewHolder<PodcastItemViewModel> extends RecyclerView.Vi
 
     ImageView itemImage;
     TextView itemTitleTextView;
-    String itemImageUrl;
     TextView itemCategoryTextView;
     CardView cardView;
     TextView itemDateTextView;

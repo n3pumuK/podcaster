@@ -12,18 +12,19 @@ import android.widget.ProgressBar;
 
 import java.util.List;
 
+import de.exercicse.jrossbach.podcast.MainActivity;
 import de.exercicse.jrossbach.podcast.R;
 import de.exercicse.jrossbach.podcast.network.LoadPodcastItemsTask;
+import de.exercicse.jrossbach.podcast.player.AudioPlayerFragment;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class PodcastListFragment extends Fragment implements PodcastItemsView{
+public class PodcastListFragment extends Fragment implements PodcastItemView {
 
     RecyclerView recyclerView;
     PodcastItemAdapter adapter;
-    List<PodcastItemVieModel> itemList;
     private static String PODCAST_URL;
     ProgressBar progressBar;
 
@@ -48,7 +49,7 @@ public class PodcastListFragment extends Fragment implements PodcastItemsView{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.podcast_recycler_view);
-        progressBar = view.findViewById(R.id.progress_bar);
+        progressBar = view.findViewById(R.id.audio_progress_bar);
         initRecyclerView();
         loadItems();
     }
@@ -74,13 +75,22 @@ public class PodcastListFragment extends Fragment implements PodcastItemsView{
     }
 
     @Override
-    public void onItemsLoadedSuccessfully(List<PodcastItemVieModel> podcastItemVieModels) {
-        adapter.setItems(podcastItemVieModels);
+    public void onItemsLoadedSuccessfully(List<PodcastItemViewModel> podcastItemViewModels) {
+        adapter.setItems(podcastItemViewModels);
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void showProgress(boolean show) {
         progressBar.setVisibility(show ? VISIBLE : GONE);
+    }
+
+    @Override
+    public void onItemClick(PodcastItemViewModel podcastItemViewModel) {
+        AudioPlayerFragment fragment = new AudioPlayerFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("podcastItemViewModel", podcastItemViewModel);
+        fragment.setArguments(args);
+        ((MainActivity)getActivity()).replaceCurrentFragment(fragment);
     }
 }

@@ -1,9 +1,12 @@
 package de.exercicse.jrossbach.podcast.search;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Map;
 
 
-public class PodcastItemVieModel {
+public class PodcastItemViewModel implements Parcelable {
 
     private String title;
     private String url;
@@ -14,9 +17,9 @@ public class PodcastItemVieModel {
     private String length;
     private Map<String, String> imageData;
 
-    public PodcastItemVieModel(final String title, final String url, final String type, final String length,
-                               final Map<String, String> imageData, final String category,
-                               final String publishingDate){
+    public PodcastItemViewModel(final String title, final String url, final String type, final String length,
+                                final Map<String, String> imageData, final String category,
+                                final String publishingDate){
         setTitle(title);
         setUrl(url);
         setImageData(imageData);
@@ -26,9 +29,47 @@ public class PodcastItemVieModel {
         setLength(length);
     }
 
-    public PodcastItemVieModel(){
+    public PodcastItemViewModel(){
 
     }
+
+    protected PodcastItemViewModel(Parcel in) {
+        title = in.readString();
+        url = in.readString();
+        imageUrl = in.readString();
+        category = in.readString();
+        publishingDate = in.readString();
+        type = in.readString();
+        length = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(url);
+        dest.writeString(imageUrl);
+        dest.writeString(category);
+        dest.writeString(publishingDate);
+        dest.writeString(type);
+        dest.writeString(length);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<PodcastItemViewModel> CREATOR = new Creator<PodcastItemViewModel>() {
+        @Override
+        public PodcastItemViewModel createFromParcel(Parcel in) {
+            return new PodcastItemViewModel(in);
+        }
+
+        @Override
+        public PodcastItemViewModel[] newArray(int size) {
+            return new PodcastItemViewModel[size];
+        }
+    };
 
     public String getTitle() {
         return title;

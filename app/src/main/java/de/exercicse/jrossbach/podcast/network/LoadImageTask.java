@@ -3,6 +3,8 @@ package de.exercicse.jrossbach.podcast.network;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -10,22 +12,20 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
-import javax.net.ssl.HttpsURLConnection;
-
-import de.exercicse.jrossbach.podcast.search.PodcastItemsView;
+import de.exercicse.jrossbach.podcast.search.PodcastItemView;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 
 
+@RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
 public class LoadImageTask extends AsyncTask {
 
     private String imageUrl;
-    private PodcastItemsView view;
+    private PodcastItemView view;
     private ImageView imageView;
 
-    public LoadImageTask(String imageUrl, ImageView imageView, PodcastItemsView view){
+    public LoadImageTask(String imageUrl, ImageView imageView, PodcastItemView view){
         this.imageUrl = imageUrl;
         this.imageView = imageView;
         this.view = view;
