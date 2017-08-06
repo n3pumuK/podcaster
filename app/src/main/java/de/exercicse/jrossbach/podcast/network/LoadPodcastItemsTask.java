@@ -7,7 +7,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -18,8 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.exercicse.jrossbach.podcast.search.PodcastItemVieModel;
-import de.exercicse.jrossbach.podcast.search.PodcastItemsView;
+import de.exercicse.jrossbach.podcast.search.PodcastChannelView;
+import de.exercicse.jrossbach.podcast.search.PodcastItemViewModel;
+import de.exercicse.jrossbach.podcast.search.PodcastItemView;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 
@@ -27,30 +27,24 @@ import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 public class LoadPodcastItemsTask extends AsyncTask {
 
     private XmlPullParserFactory xmlFactoryObject;
-    private XmlPullParser parser;
-    private BufferedReader reader = null;
     private String searchString;
-    private List<PodcastItemVieModel> podcastItemList = new ArrayList<>();
+    private List<PodcastItemViewModel> podcastItemList = new ArrayList<>();
     private HttpURLConnection connection;
-    private PodcastItemsView view;
-    private PodcastItemVieModel podcastItem;
-    private InputStream inputStream;
+    private PodcastChannelView view;
 
-    static final String PUB_DATE = "pubDate";
-    static final String DESCRIPTION = "description";
-    static final String CHANNEL = "channel";
-    static final String TITLE = "title";
-    static final String ITEM = "item";
-    static final String CATEGORY = "category";
-    static final String LINK = "link";
-    static final String ENCLOSURE = "enclosure";
-    static final String URL = "url";
-    static final String TYPE = "type";
-    static final String LENGTH = "length";
+    private static final String PUB_DATE = "pubDate";
+    private static final String CHANNEL = "channel";
+    private static final String TITLE = "title";
+    private static final String ITEM = "item";
+    private static final String CATEGORY = "category";
+    private static final String ENCLOSURE = "enclosure";
+    private static final String URL = "url";
+    private static final String TYPE = "type";
+    private static final String LENGTH = "length";
 
 
 
-    public LoadPodcastItemsTask(final String searchString, final PodcastItemsView view){
+    public LoadPodcastItemsTask(final String searchString, final PodcastChannelView view){
         this.searchString = searchString;
         this.view = view;
     }
@@ -71,14 +65,15 @@ public class LoadPodcastItemsTask extends AsyncTask {
 
             if(connection.getResponseCode() < HTTP_BAD_REQUEST)
             xmlFactoryObject = XmlPullParserFactory.newInstance();
-            parser = xmlFactoryObject.newPullParser();
-            inputStream = connection.getInputStream();
+            XmlPullParser parser = xmlFactoryObject.newPullParser();
+            InputStream inputStream = connection.getInputStream();
             parser.setInput(inputStream, null);
 
             int eventType = parser.getEventType();
             boolean done = false;
-            podcastItem = null;
+            PodcastItemViewModel podcastItem = null;
             Map<String, String> imageDetails = null;
+            String imageUrl = null;
 
             while (eventType != XmlPullParser.END_DOCUMENT && !done) {
                 switch (eventType) {
@@ -94,14 +89,19 @@ public class LoadPodcastItemsTask extends AsyncTask {
                             } else if(name.equalsIgnoreCase("height")){
                                 imageDetails.put("height", parser.nextText().trim());
                             } else if(name.equalsIgnoreCase("url")){
-                                imageDetails.put("imageUrl",parser.nextText().trim());
+                                imageUrl = parser.nextText().trim();
+                                imageDetails.put("imageUrl", imageUrl);
+
                             }
                         }
 
+                        if(name.equalsIgnoreCase("itunes:image")){
+                            imageUrl = parser.getAttributeValue(null, "href");
+                        }
 
                         if (name.equalsIgnoreCase(ITEM)) {
                             Log.i("new item", "Create new item");
-                            podcastItem = new PodcastItemVieModel();
+                            podcastItem = new PodcastItemViewModel();
                         } else if (podcastItem != null) {
                              if (name.equalsIgnoreCase(TITLE)) {
                                 Log.i("Attribute", TITLE);
@@ -113,9 +113,9 @@ public class LoadPodcastItemsTask extends AsyncTask {
                                 Log.i("Attribute", CATEGORY);
                                 podcastItem.setCategory(parser.nextText().trim());
                             } else if(name.equalsIgnoreCase(ENCLOSURE)){
-                                podcastItem.setUrl(parser.getAttributeValue(0));
-                                podcastItem.setType(parser.getAttributeValue(1));
-                                podcastItem.setLength(parser.getAttributeValue(2));
+                                podcastItem.setUrl(parser.getAttributeValue(null, URL));
+                                podcastItem.setType(parser.getAttributeValue(null, TYPE));
+                                podcastItem.setLength(parser.getAttributeValue(null, LENGTH));
                                  Log.i("Attribute", URL);
                                  Log.i("Attribute", TYPE);
                                  Log.i("Attribute", LENGTH);
@@ -128,6 +128,7 @@ public class LoadPodcastItemsTask extends AsyncTask {
                         if (name.equalsIgnoreCase(ITEM) && podcastItem != null) {
                             Log.i("Added", podcastItem.toString());
                             podcastItem.setImageData(imageDetails);
+                            podcastItem.setImageUrl(imageUrl);
                             podcastItemList.add(podcastItem);
                         } else if (name.equalsIgnoreCase(CHANNEL)) {
                             done = true;

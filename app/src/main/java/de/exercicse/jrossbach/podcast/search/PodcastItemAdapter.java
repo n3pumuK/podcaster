@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import de.exercicse.jrossbach.podcast.R;
 import de.exercicse.jrossbach.podcast.network.LoadImageTask;
@@ -15,11 +16,11 @@ import de.exercicse.jrossbach.podcast.network.LoadImageTask;
 public class PodcastItemAdapter extends RecyclerView.Adapter<PodcastItemViewHolder> {
 
 
-    private List<PodcastItemVieModel> podcastItemVieModelList = new ArrayList<>();
-    private PodcastItemsView podcastItemsView;
+    private List<PodcastItemViewModel> podcastItemViewModelList = new ArrayList<>();
+    private PodcastChannelView podcastChannelView;
 
-    public PodcastItemAdapter(PodcastItemsView podcastItemsView){
-        this.podcastItemsView = podcastItemsView;
+    public PodcastItemAdapter(PodcastChannelView podcastChannelView){
+        this.podcastChannelView = podcastChannelView;
     }
 
     @Override
@@ -31,21 +32,29 @@ public class PodcastItemAdapter extends RecyclerView.Adapter<PodcastItemViewHold
 
     @Override
     public void onBindViewHolder(PodcastItemViewHolder holder, int position) {
-        PodcastItemVieModel podcastItemVieModel = podcastItemVieModelList.get(position);
-        //holder.itemImageUrl = podcastItemVieModelList.get(position).imageUrl;
-        holder.itemTitleTextView.setText(podcastItemVieModel.getTitle());
-        holder.itemCategoryTextView.setText(podcastItemVieModel.getCategory());
-        holder.itemDateTextView.setText(podcastItemVieModel.getPublishingDate());
-        LoadImageTask loadImageTask = new LoadImageTask(podcastItemVieModel.getImageData().get("imageUrl"), holder.itemImage, podcastItemsView);
-        loadImageTask.execute();
+        final PodcastItemViewModel podcastItemViewModel = podcastItemViewModelList.get(position);
+        holder.itemTitleTextView.setText(podcastItemViewModel.getTitle());
+        holder.itemCategoryTextView.setText(podcastItemViewModel.getCategory());
+        holder.itemDateTextView.setText(podcastItemViewModel.getPublishingDate());
+        String imageUrl = podcastItemViewModel.getImageUrl();
+        if(imageUrl != null){
+            LoadImageTask loadImageTask = new LoadImageTask(imageUrl, holder.itemImage, podcastChannelView);
+            loadImageTask.execute();
+        }
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                podcastChannelView.onItemClick(podcastItemViewModel);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return podcastItemVieModelList.size();
+        return podcastItemViewModelList.size();
     }
 
-    public void setItems(List<PodcastItemVieModel> podcastItems){
-        this.podcastItemVieModelList = podcastItems;
+    public void setItems(List<PodcastItemViewModel> podcastItems){
+        this.podcastItemViewModelList = podcastItems;
     }
 }
