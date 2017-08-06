@@ -17,10 +17,10 @@ public class PodcastItemAdapter extends RecyclerView.Adapter<PodcastItemViewHold
 
 
     private List<PodcastItemViewModel> podcastItemViewModelList = new ArrayList<>();
-    private PodcastItemView podcastItemView;
+    private PodcastChannelView podcastChannelView;
 
-    public PodcastItemAdapter(PodcastItemView podcastItemView){
-        this.podcastItemView = podcastItemView;
+    public PodcastItemAdapter(PodcastChannelView podcastChannelView){
+        this.podcastChannelView = podcastChannelView;
     }
 
     @Override
@@ -38,13 +38,13 @@ public class PodcastItemAdapter extends RecyclerView.Adapter<PodcastItemViewHold
         holder.itemDateTextView.setText(podcastItemViewModel.getPublishingDate());
         String imageUrl = podcastItemViewModel.getImageUrl();
         if(imageUrl != null){
-            LoadImageTask loadImageTask = new LoadImageTask(imageUrl, holder.itemImage, podcastItemView);
+            LoadImageTask loadImageTask = new LoadImageTask(imageUrl, holder.itemImage, podcastChannelView);
             loadImageTask.execute();
         }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                podcastItemView.onItemClick(podcastItemViewModel);
+                podcastChannelView.onItemClick(podcastItemViewModel);
             }
         });
     }

@@ -68,6 +68,6 @@ public class PlayAudioTask extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean prepared) {
         super.onPostExecute(prepared);
         podcastItemView.showProgress(false);
-        mediaPlayer.start();
+        podcastItemView.play();
     }
 }

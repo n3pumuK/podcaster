@@ -21,7 +21,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class PodcastListFragment extends Fragment implements PodcastItemView {
+public class PodcastListFragment extends Fragment implements PodcastChannelView {
 
     RecyclerView recyclerView;
     PodcastItemAdapter adapter;
@@ -87,10 +87,11 @@ public class PodcastListFragment extends Fragment implements PodcastItemView {
 
     @Override
     public void onItemClick(PodcastItemViewModel podcastItemViewModel) {
-        AudioPlayerFragment fragment = new AudioPlayerFragment();
+        AudioPlayerFragment fragment = AudioPlayerFragment.newInstance();
         Bundle args = new Bundle();
         args.putParcelable("podcastItemViewModel", podcastItemViewModel);
         fragment.setArguments(args);
         ((MainActivity)getActivity()).replaceCurrentFragment(fragment);
     }
+
 }

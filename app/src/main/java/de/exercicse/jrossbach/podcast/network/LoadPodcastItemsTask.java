@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.exercicse.jrossbach.podcast.search.PodcastChannelView;
 import de.exercicse.jrossbach.podcast.search.PodcastItemViewModel;
 import de.exercicse.jrossbach.podcast.search.PodcastItemView;
 
@@ -29,7 +30,7 @@ public class LoadPodcastItemsTask extends AsyncTask {
     private String searchString;
     private List<PodcastItemViewModel> podcastItemList = new ArrayList<>();
     private HttpURLConnection connection;
-    private PodcastItemView view;
+    private PodcastChannelView view;
 
     private static final String PUB_DATE = "pubDate";
     private static final String CHANNEL = "channel";
@@ -43,7 +44,7 @@ public class LoadPodcastItemsTask extends AsyncTask {
 
 
 
-    public LoadPodcastItemsTask(final String searchString, final PodcastItemView view){
+    public LoadPodcastItemsTask(final String searchString, final PodcastChannelView view){
         this.searchString = searchString;
         this.view = view;
     }

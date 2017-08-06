@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import de.exercicse.jrossbach.podcast.search.PodcastChannelView;
 import de.exercicse.jrossbach.podcast.search.PodcastItemView;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
@@ -22,10 +23,10 @@ import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 public class LoadImageTask extends AsyncTask {
 
     private String imageUrl;
-    private PodcastItemView view;
+    private PodcastChannelView view;
     private ImageView imageView;
 
-    public LoadImageTask(String imageUrl, ImageView imageView, PodcastItemView view){
+    public LoadImageTask(String imageUrl, ImageView imageView, PodcastChannelView view){
         this.imageUrl = imageUrl;
         this.imageView = imageView;
         this.view = view;

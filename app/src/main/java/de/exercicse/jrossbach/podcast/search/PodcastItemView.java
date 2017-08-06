@@ -3,10 +3,8 @@ package de.exercicse.jrossbach.podcast.search;
 
 import java.util.List;
 
-public interface PodcastItemView {
+public interface PodcastItemView extends PodcastChannelView {
 
-    void onItemsLoadedSuccessfully(List<PodcastItemViewModel> podcastItemViewModels);
-    void showProgress(boolean show);
-    void onItemClick(PodcastItemViewModel podcastItemViewModel);
+    void play();
 
 }
