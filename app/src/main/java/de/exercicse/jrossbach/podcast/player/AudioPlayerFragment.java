@@ -7,20 +7,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import java.lang.annotation.Target;
+import android.support.design.widget.FloatingActionButton;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,8 +24,6 @@ import de.exercicse.jrossbach.podcast.network.LoadImageTask;
 import de.exercicse.jrossbach.podcast.network.PlayAudioTask;
 import de.exercicse.jrossbach.podcast.search.PodcastItemView;
 import de.exercicse.jrossbach.podcast.search.PodcastItemViewModel;
-
-import static android.R.drawable.ic_media_pause;
 
 
 public class AudioPlayerFragment extends Fragment implements PodcastItemView {
