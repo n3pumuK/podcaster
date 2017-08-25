@@ -16,7 +16,6 @@ import java.util.List;
 import de.exercicse.jrossbach.podcast.MainActivity;
 import de.exercicse.jrossbach.podcast.R;
 import de.exercicse.jrossbach.podcast.network.ApiProvider;
-import de.exercicse.jrossbach.podcast.network.LoadPodcastItemsTask;
 import de.exercicse.jrossbach.podcast.network.model.PodcastChannelResponse;
 import de.exercicse.jrossbach.podcast.network.model.PodcastItem;
 import de.exercicse.jrossbach.podcast.player.AudioPlayerFragment;
@@ -76,11 +75,6 @@ public class PodcastListFragment extends Fragment implements PodcastChannelView 
         adapter = new PodcastItemAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-    }
-
-    private void loadItems(){
-        LoadPodcastItemsTask loadPodcastItemsTask = new LoadPodcastItemsTask(PODCAST_URL, this);
-        loadPodcastItemsTask.execute();
     }
 
     private void loadChannel() {

@@ -5,21 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import de.exercicse.jrossbach.podcast.R;
-import de.exercicse.jrossbach.podcast.network.LoadImageTask;
 
 
 public class PodcastItemAdapter extends RecyclerView.Adapter<PodcastItemViewHolder> {
 
-
     private List<PodcastItemViewModel> podcastItemViewModelList = new ArrayList<>();
     private PodcastChannelView podcastChannelView;
 
-    public PodcastItemAdapter(PodcastChannelView podcastChannelView){
+    public PodcastItemAdapter(PodcastChannelView podcastChannelView) {
         this.podcastChannelView = podcastChannelView;
     }
 
@@ -37,9 +36,10 @@ public class PodcastItemAdapter extends RecyclerView.Adapter<PodcastItemViewHold
         holder.itemCategoryTextView.setText(podcastItemViewModel.getCategory());
         holder.itemDateTextView.setText(podcastItemViewModel.getPublishingDate());
         String imageUrl = podcastItemViewModel.getImageUrl();
-        if(imageUrl != null){
-            LoadImageTask loadImageTask = new LoadImageTask(imageUrl, holder.itemImage, podcastChannelView);
-            loadImageTask.execute();
+        if (imageUrl != null) {
+            Glide.with(holder.cardView)
+                    .load(imageUrl)
+                    .into(holder.itemImage);
         }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +54,7 @@ public class PodcastItemAdapter extends RecyclerView.Adapter<PodcastItemViewHold
         return podcastItemViewModelList.size();
     }
 
-    public void setItems(List<PodcastItemViewModel> podcastItems){
+    public void setItems(List<PodcastItemViewModel> podcastItems) {
         this.podcastItemViewModelList = podcastItems;
     }
 }

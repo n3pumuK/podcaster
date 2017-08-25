@@ -7,7 +7,6 @@ import retrofit2.http.GET;
 
 public interface PodcastApi {
 
-
     @GET("/")
     Single<PodcastChannelResponse>getPodcastChannelResponse();
 }
