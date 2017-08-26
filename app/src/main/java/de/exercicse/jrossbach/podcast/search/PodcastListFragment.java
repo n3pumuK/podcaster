@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.exercicse.jrossbach.podcast.MainActivity;
 import de.exercicse.jrossbach.podcast.R;
 import de.exercicse.jrossbach.podcast.network.ApiProvider;
@@ -30,11 +32,14 @@ import static android.view.View.VISIBLE;
 
 public class PodcastListFragment extends Fragment implements PodcastChannelView {
 
+    @BindView(R.id.podcast_recycler_view)
     RecyclerView recyclerView;
     PodcastItemAdapter adapter;
     private static String PODCAST_URL;
+
+    @BindView(R.id.audio_progress_bar)
     ProgressBar progressBar;
-    Disposable disposable;
+    private Disposable disposable;
 
     public static PodcastListFragment newInstance(String url){
         PodcastListFragment fragment = new PodcastListFragment();
@@ -49,6 +54,7 @@ public class PodcastListFragment extends Fragment implements PodcastChannelView 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.podcast_list_fragment, container, false);
+        ButterKnife.bind(this, rootView);
         PODCAST_URL = getArguments().getString("podcastUrl");
         return rootView;
     }
@@ -56,8 +62,6 @@ public class PodcastListFragment extends Fragment implements PodcastChannelView 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView = view.findViewById(R.id.podcast_recycler_view);
-        progressBar = view.findViewById(R.id.audio_progress_bar);
         initRecyclerView();
         loadChannel();
     }

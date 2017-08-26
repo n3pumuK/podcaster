@@ -12,14 +12,17 @@
         android:layout_gravity="top"/>
 
     <Button
-        android:layout_marginTop="120dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
         android:id="@+id/search_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="search"
         android:layout_gravity="center_vertical"/>
 
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/saved_search_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

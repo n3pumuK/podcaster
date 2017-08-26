@@ -6,10 +6,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.exercicse.jrossbach.podcast.search.SearchPodcastFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.container)
     LinearLayout container;
 
 
@@ -17,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        container = findViewById(R.id.container);
+        ButterKnife.bind(this);
         setUpFragments();
     }
 

@@ -22,6 +22,8 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.exercicse.jrossbach.podcast.R;
 import de.exercicse.jrossbach.podcast.network.PlayAudioTask;
 import de.exercicse.jrossbach.podcast.search.PodcastItemView;
@@ -30,12 +32,19 @@ import de.exercicse.jrossbach.podcast.search.PodcastItemViewModel;
 
 public class AudioPlayerFragment extends Fragment implements PodcastItemView {
 
+    @BindView(R.id.title_text_view)
     TextView titleTextView;
+    @BindView(R.id.duration)
     TextView duration;
+    @BindView(R.id.play_button)
     FloatingActionButton playButton;
+    @BindView(R.id.stop_button)
     FloatingActionButton stopButton;
+    @BindView(R.id.seek_bar)
     SeekBar seekBar;
+    @BindView(R.id.item_image_view)
     ImageView imageView;
+    @BindView(R.id.audio_progress_bar)
     ProgressBar progressBar;
     private MediaPlayer mediaPlayer;
     private PodcastItemViewModel podcastItemViewModel;
@@ -54,19 +63,10 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         View rootView = inflater.inflate(R.layout.audio_player_fragment, container, false);
-        progressBar = rootView.findViewById(R.id.audio_progress_bar);
-        titleTextView = rootView.findViewById(R.id.title_text_view);
-        duration = rootView.findViewById(R.id.duration);
-        playButton = rootView.findViewById(R.id.play_button);
-        stopButton = rootView.findViewById(R.id.stop_button);
-        seekBar = rootView.findViewById(R.id.seek_bar);
-        imageView = rootView.findViewById(R.id.item_image_view);
+        ButterKnife.bind(this, rootView);
         podcastItemViewModel = getArguments().getParcelable("podcastItemViewModel");
         titleTextView.setText(podcastItemViewModel.getTitle());
-
-
         String imageUrl = podcastItemViewModel.getImageUrl();
         if (imageUrl != null) {
             Glide.with(this)
