@@ -7,40 +7,44 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import java.lang.annotation.Target;
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.exercicse.jrossbach.podcast.R;
-import de.exercicse.jrossbach.podcast.network.LoadImageTask;
 import de.exercicse.jrossbach.podcast.network.PlayAudioTask;
 import de.exercicse.jrossbach.podcast.search.PodcastItemView;
 import de.exercicse.jrossbach.podcast.search.PodcastItemViewModel;
 
-import static android.R.drawable.ic_media_pause;
-
 
 public class AudioPlayerFragment extends Fragment implements PodcastItemView {
 
+    @BindView(R.id.title_text_view)
     TextView titleTextView;
+    @BindView(R.id.duration)
     TextView duration;
+    @BindView(R.id.play_button)
     FloatingActionButton playButton;
+    @BindView(R.id.stop_button)
     FloatingActionButton stopButton;
+    @BindView(R.id.seek_bar)
     SeekBar seekBar;
+    @BindView(R.id.item_image_view)
     ImageView imageView;
+    @BindView(R.id.audio_progress_bar)
     ProgressBar progressBar;
     private MediaPlayer mediaPlayer;
     private PodcastItemViewModel podcastItemViewModel;
@@ -51,7 +55,6 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
     private Handler durationHandler = new Handler();
 
 
-
     public static AudioPlayerFragment newInstance() {
         return new AudioPlayerFragment();
     }
@@ -60,24 +63,15 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         View rootView = inflater.inflate(R.layout.audio_player_fragment, container, false);
-        progressBar = rootView.findViewById(R.id.audio_progress_bar);
-        titleTextView = rootView.findViewById(R.id.title_text_view);
-        duration = rootView.findViewById(R.id.duration);
-        playButton = rootView.findViewById(R.id.play_button);
-        stopButton = rootView.findViewById(R.id.stop_button);
-        seekBar = rootView.findViewById(R.id.seek_bar);
-        imageView = rootView.findViewById(R.id.item_image_view);
+        ButterKnife.bind(this, rootView);
         podcastItemViewModel = getArguments().getParcelable("podcastItemViewModel");
         titleTextView.setText(podcastItemViewModel.getTitle());
-
-
-
         String imageUrl = podcastItemViewModel.getImageUrl();
         if (imageUrl != null) {
-            LoadImageTask imageTask = new LoadImageTask(imageUrl, imageView, this);
-            imageTask.execute();
+            Glide.with(this)
+                    .load(imageUrl)
+                    .into(imageView);
         }
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -131,10 +125,10 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    mediaPlayer.stop();
-                    mediaPlayer.reset();
-                    playButton.setImageResource(R.drawable.ic_play_arrow_24dp);
-                    playPause = false;
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                playButton.setImageResource(R.drawable.ic_play_arrow_24dp);
+                playPause = false;
             }
         });
     }
@@ -152,7 +146,7 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
     private Runnable updateSeekBarTime = new Runnable() {
 
         public void run() {
-            if(mediaPlayer!= null) {
+            if (mediaPlayer != null) {
                 timeElapsed = mediaPlayer.getCurrentPosition();
                 seekBar.setProgress((int) timeElapsed);
                 //set time remaining
@@ -169,15 +163,16 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
     };
 
 
-
-    private void setUpSeekBar(){
+    private void setUpSeekBar() {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
