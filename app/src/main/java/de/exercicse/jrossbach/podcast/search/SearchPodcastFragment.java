@@ -45,6 +45,7 @@ public class SearchPodcastFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.search_podcast_fragment, container, false);
         ButterKnife.bind(this, rootView);
         searchEditText.setText("http://pc.argudiss.de");
+        //TODO: persist state after application died
         if (savedInstanceState != null) {
             savedSearchStrings = savedInstanceState.getParcelable("last_search_strings");
         }
