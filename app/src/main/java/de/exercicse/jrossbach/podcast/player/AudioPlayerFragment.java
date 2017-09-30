@@ -1,6 +1,7 @@
 package de.exercicse.jrossbach.podcast.player;
 
 import android.annotation.TargetApi;
+import android.content.ComponentName;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -9,6 +10,9 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +32,7 @@ import de.exercicse.jrossbach.podcast.R;
 import de.exercicse.jrossbach.podcast.network.PlayAudioTask;
 import de.exercicse.jrossbach.podcast.search.PodcastItemView;
 import de.exercicse.jrossbach.podcast.search.PodcastItemViewModel;
+import de.exercicse.jrossbach.podcast.service.AudioPlaybackService;
 
 
 public class AudioPlayerFragment extends Fragment implements PodcastItemView {
@@ -55,9 +60,12 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
     private Handler durationHandler = new Handler();
 
 
+
     public static AudioPlayerFragment newInstance() {
         return new AudioPlayerFragment();
     }
+
+
 
     @Nullable
     @Override
