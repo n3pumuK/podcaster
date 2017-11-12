@@ -1,18 +1,16 @@
 package de.exercicse.jrossbach.podcast.player;
 
 import android.annotation.TargetApi;
-import android.content.ComponentName;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.media.MediaBrowserCompat;
-import android.support.v4.media.session.MediaControllerCompat;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,9 +109,13 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
                 if (!playPause) {
                     playButton.setImageResource(R.drawable.ic_pause_24dp);
                     if (initialStage) {
-
-                        new PlayAudioTask(mediaPlayer, AudioPlayerFragment.this)
-                                .execute(podcastItemViewModel.getUrl());
+                        Intent intent = new Intent(getActivity(), AudioPlaybackService.class);
+                        intent.setAction("com.example.action.PLAY");
+                        intent.putExtra("intent_extra_media_url", podcastItemViewModel.getUrl());
+                        intent.setData(Uri.parse(podcastItemViewModel.getUrl()));
+                        getActivity().startService(intent);
+//                        new PlayAudioTask(mediaPlayer, AudioPlayerFragment.this)
+//                                .execute(podcastItemViewModel.getUrl());
                     } else {
                         if (!mediaPlayer.isPlaying())
                             play();

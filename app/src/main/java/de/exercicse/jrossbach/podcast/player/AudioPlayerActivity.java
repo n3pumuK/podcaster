@@ -11,9 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import de.exercicse.jrossbach.podcast.service.AudioPlaybackService;
 
-/**
- * Created by jrossbach on 10.09.17.
- */
 
 public class AudioPlayerActivity extends AppCompatActivity {
 
@@ -57,11 +54,13 @@ public class AudioPlayerActivity extends AppCompatActivity {
                 @Override
                 public void onConnectionSuspended() {
                     // The Service has crashed. Disable transport controls until it automatically reconnects
+                    super.onConnectionSuspended();
                 }
 
                 @Override
                 public void onConnectionFailed() {
                     // The Service has refused our connection
+                    super.onConnectionFailed();
                 }
             };
 }
