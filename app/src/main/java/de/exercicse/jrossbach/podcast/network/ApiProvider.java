@@ -23,7 +23,7 @@ public class ApiProvider {
                 .build();
     }
 
-    public static PodCastApi getChannelApi(final String baseUrl){
-        return getRetrofit(baseUrl).create(PodCastApi.class);
+    public static PodcastApi getChannelApi(final String baseUrl){
+        return getRetrofit(baseUrl).create(PodcastApi.class);
     }
 }

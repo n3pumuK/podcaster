@@ -5,7 +5,7 @@ import de.exercicse.jrossbach.podcast.network.model.PodcastChannelResponse;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 
-public interface PodCastApi {
+public interface PodcastApi {
 
     @GET("/")
     Single<PodcastChannelResponse> getPodCastChannelResponse();
