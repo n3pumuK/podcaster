@@ -1,8 +1,10 @@
 package de.exercicse.jrossbach.podcast.player;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +30,7 @@ import de.exercicse.jrossbach.podcast.R;
 import de.exercicse.jrossbach.podcast.network.PlayAudioTask;
 import de.exercicse.jrossbach.podcast.search.PodcastItemView;
 import de.exercicse.jrossbach.podcast.search.PodcastItemViewModel;
+import de.exercicse.jrossbach.podcast.service.AudioPlaybackService;
 
 
 public class AudioPlayerFragment extends Fragment implements PodcastItemView {
@@ -55,9 +58,12 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
     private Handler durationHandler = new Handler();
 
 
+
     public static AudioPlayerFragment newInstance() {
         return new AudioPlayerFragment();
     }
+
+
 
     @Nullable
     @Override
@@ -103,9 +109,13 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView {
                 if (!playPause) {
                     playButton.setImageResource(R.drawable.ic_pause_24dp);
                     if (initialStage) {
-
-                        new PlayAudioTask(mediaPlayer, AudioPlayerFragment.this)
-                                .execute(podcastItemViewModel.getUrl());
+                        Intent intent = new Intent(getActivity(), AudioPlaybackService.class);
+                        intent.setAction("com.example.action.PLAY");
+                        intent.putExtra("intent_extra_media_url", podcastItemViewModel.getUrl());
+                        intent.setData(Uri.parse(podcastItemViewModel.getUrl()));
+                        getActivity().startService(intent);
+//                        new PlayAudioTask(mediaPlayer, AudioPlayerFragment.this)
+//                                .execute(podcastItemViewModel.getUrl());
                     } else {
                         if (!mediaPlayer.isPlaying())
                             play();
