@@ -8,6 +8,9 @@ import android.support.v4.media.session.MediaSessionCompat;
 public class AudioSessionCallBack extends MediaSessionCompat.Callback {
 
     Context context;
+    public AudioSessionCallBack(Context context) {
+     this.context = context;
+    }
 
     @Override
     public void onPlay() {

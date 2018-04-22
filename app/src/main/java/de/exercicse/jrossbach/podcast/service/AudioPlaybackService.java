@@ -1,35 +1,25 @@
 package de.exercicse.jrossbach.podcast.service;
 
-import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
-import android.support.v4.media.MediaDescriptionCompat;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaButtonReceiver;
-import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import de.exercicse.jrossbach.podcast.NotificationHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.exercicse.jrossbach.podcast.R;
 
 
 public class AudioPlaybackService extends MediaBrowserServiceCompat implements MediaPlayer.OnCompletionListener,
@@ -51,6 +41,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
     private AudioManager audioManager;
     private PlaybackStateCompat.Builder stateBuilder;
     private String streamUrl;
+    private NotificationHelper notificationHelper;
 
     //Used to pause/resume MediaPlayer
     private int resumePosition;
@@ -59,7 +50,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
     @Override
     public IBinder onBind(Intent intent) {
 
-        if(intent!= null){
+        if (intent != null) {
             streamUrl = intent.getDataString();
         }
         return super.onBind(intent);
@@ -68,7 +59,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
     @Override
     public void onCreate() {
         super.onCreate();
-
+        notificationHelper = new NotificationHelper(getBaseContext());
         // Create a MediaSessionCompat
         mediaSessionCompat = new MediaSessionCompat(getApplicationContext(), LOG_TAG);
 
@@ -85,11 +76,11 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
         mediaSessionCompat.setPlaybackState(stateBuilder.build());
 
         // MySessionCallback() has methods that handle callbacks from a media controller
-        mediaSessionCompat.setCallback(new AudioSessionCallBack());
+        mediaSessionCompat.setCallback(new AudioSessionCallBack(this));
 
         // Set the session's token so that client activities can communicate with it.
         setSessionToken(mediaSessionCompat.getSessionToken());
-        startForeground(NOTIFICATION_ID, buildForegroundNotification());
+        startForeground(NOTIFICATION_ID, notificationHelper.buildForegroundNotification(mediaSessionCompat, getBaseContext()));
     }
 
 
@@ -106,7 +97,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
         mediaPlayer.reset();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setScreenOnWhilePlaying(false);
-       // mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+        // mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         try {
             // Set the data source to the mediaFile location
             mediaPlayer.setDataSource(streamUrl);
@@ -117,55 +108,6 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
         mediaPlayer.prepareAsync();
     }
 
-    private Notification buildForegroundNotification() {
-
-        // Get the session's metadata
-        MediaControllerCompat controller = mediaSessionCompat.getController();
-        MediaMetadataCompat mediaMetadata = controller.getMetadata();
-     //   MediaDescriptionCompat description = mediaMetadata.getDescription();
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-
-        builder
-                // Add the metadata for the currently playing track
-                .setContentTitle("title")
-                .setContentText("subtitle")
-                .setSubText("descrption")
-               .setSmallIcon(R.mipmap.ic_launcher)
-                .setChannelId("4565")
-
-                // Enable launching the player by clicking the notification
-                .setContentIntent(controller.getSessionActivity())
-
-                // Stop the service when the notification is swiped away
-                .setDeleteIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(this,
-                        PlaybackStateCompat.ACTION_STOP))
-
-                // Make the transport controls visible on the lockscreen
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-
-                // Add an app icon and set its accent color
-                // Be careful about the color
-                .setSmallIcon(R.drawable.ic_play_arrow_24dp)
-                .setColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
-
-                // Add a pause button
-                .addAction(new NotificationCompat.Action(
-                        R.drawable.ic_pause_24dp, getString(R.string.pause),
-                        MediaButtonReceiver.buildMediaButtonPendingIntent(this,
-                                PlaybackStateCompat.ACTION_PLAY_PAUSE)))
-
-                // Take advantage of MediaStyle features
-                .setStyle(new NotificationCompat.MediaStyle()
-                        .setMediaSession(mediaSessionCompat.getSessionToken())
-                        .setShowActionsInCompactView(0)
-
-                        // Add a cancel button
-                        .setShowCancelButton(true)
-                        .setCancelButtonIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(this,
-                                PlaybackStateCompat.ACTION_STOP)));
-        return builder.build();
-    }
 
     @Nullable
     @Override
@@ -245,12 +187,12 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent!= null && intent.getAction().equals(ACTION_PLAY)) {
+        if (intent != null && intent.getAction().equals(ACTION_PLAY)) {
             streamUrl = intent.getDataString();
             initMediaPlayer();
         }
         super.onStartCommand(intent, flags, startId);
-        startForeground(NOTIFICATION_ID, buildForegroundNotification());
+        startForeground(NOTIFICATION_ID, notificationHelper.buildForegroundNotification(mediaSessionCompat, getBaseContext()));
 
         return Service.START_STICKY;
     }

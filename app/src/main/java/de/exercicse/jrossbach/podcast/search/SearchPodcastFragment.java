@@ -1,7 +1,6 @@
 package de.exercicse.jrossbach.podcast.search;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.exercicse.jrossbach.podcast.MainActivity;
 import de.exercicse.jrossbach.podcast.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SearchPodcastFragment extends Fragment {
@@ -81,7 +79,7 @@ public class SearchPodcastFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("last_search_strings", (Parcelable) savedSearchStrings);
+     //   outState.putParcelable("last_search_strings", Parcels.wrap(savedSearchStrings));
     }
 
     private void search(String searchString) {
