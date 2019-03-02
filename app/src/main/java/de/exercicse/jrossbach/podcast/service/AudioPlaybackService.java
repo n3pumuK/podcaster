@@ -4,32 +4,29 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.media.app.NotificationCompat.MediaStyle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
-import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import de.exercicse.jrossbach.podcast.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.exercicse.jrossbach.podcast.R;
 
 
 public class AudioPlaybackService extends MediaBrowserServiceCompat implements MediaPlayer.OnCompletionListener,
@@ -59,7 +56,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
     @Override
     public IBinder onBind(Intent intent) {
 
-        if(intent!= null){
+        if (intent != null) {
             streamUrl = intent.getDataString();
         }
         return super.onBind(intent);
@@ -106,7 +103,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
         mediaPlayer.reset();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setScreenOnWhilePlaying(false);
-       // mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+        // mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         try {
             // Set the data source to the mediaFile location
             mediaPlayer.setDataSource(streamUrl);
@@ -122,7 +119,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
         // Get the session's metadata
         MediaControllerCompat controller = mediaSessionCompat.getController();
         MediaMetadataCompat mediaMetadata = controller.getMetadata();
-     //   MediaDescriptionCompat description = mediaMetadata.getDescription();
+        //   MediaDescriptionCompat description = mediaMetadata.getDescription();
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
 
@@ -131,7 +128,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
                 .setContentTitle("title")
                 .setContentText("subtitle")
                 .setSubText("descrption")
-               .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setChannelId("4565")
 
                 // Enable launching the player by clicking the notification
@@ -156,7 +153,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
                                 PlaybackStateCompat.ACTION_PLAY_PAUSE)))
 
                 // Take advantage of MediaStyle features
-                .setStyle(new NotificationCompat.MediaStyle()
+                .setStyle(new MediaStyle()
                         .setMediaSession(mediaSessionCompat.getSessionToken())
                         .setShowActionsInCompactView(0)
 
@@ -245,7 +242,7 @@ public class AudioPlaybackService extends MediaBrowserServiceCompat implements M
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent!= null && intent.getAction().equals(ACTION_PLAY)) {
+        if (intent != null && intent.getAction().equals(ACTION_PLAY)) {
             streamUrl = intent.getDataString();
             initMediaPlayer();
         }

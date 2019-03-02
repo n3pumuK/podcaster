@@ -17,17 +17,17 @@ public class SearchListPresenter extends Presenter<PodcastChannelView> {
     }
 
     public void loadChannel(@NonNull String url) {
-        view.showProgress(true);
+        getView().showProgress(true);
         subscribe(channelDataSource.loadChannelItems(url), new DisposableSingleObserver<List<PodcastItemViewModel>>() {
             @Override
             public void onSuccess(List<PodcastItemViewModel> podcastItemViewModelList) {
-                view.showProgress(false);
-                view.onItemsLoadedSuccessfully(podcastItemViewModelList);
+                getView().showProgress(false);
+                getView().onItemsLoadedSuccessfully(podcastItemViewModelList);
             }
 
             @Override
             public void onError(Throwable e) {
-                view.showProgress(false);
+                getView().showProgress(false);
                 e.printStackTrace();
             }
         });
