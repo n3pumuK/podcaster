@@ -5,13 +5,12 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
-import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 
-abstract class Presenter<ViewType> {
+abstract class Presenter<ViewType: Any> {
 
     private var compositeDisposable: CompositeDisposable? = null
-    protected var view: ViewType? = null
+    internal var view: ViewType? = null
 
     fun attachView(view: ViewType) {
         this.view = view
@@ -19,15 +18,22 @@ abstract class Presenter<ViewType> {
     }
 
     fun subscribe(completable: Completable, disposableCompletableObserver: DisposableCompletableObserver) {
-        compositeDisposable!!.add(completable.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(disposableCompletableObserver))
+        compositeDisposable?.add(
+            completable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(disposableCompletableObserver))
     }
 
-    fun subscribe(single: Single<Any>, disposableSingleObserver: DisposableSingleObserver<Any>) {
-        compositeDisposable!!.add(single.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(disposableSingleObserver))
+    fun <ReturnType> subscribe(single: Single<ReturnType>,
+        onSuccess: (ReturnType) -> Unit,
+        onError: (Throwable) -> Unit) {
+        compositeDisposable?.add(
+            single
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onSuccess, onError)
+        )
     }
 
     fun detachView() {
