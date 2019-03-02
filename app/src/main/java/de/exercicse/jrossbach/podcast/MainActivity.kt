@@ -4,19 +4,16 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.widget.LinearLayout
-import butterknife.BindView
-import butterknife.ButterKnife
 import de.exercicse.jrossbach.podcast.search.SearchPodcastFragment
 
 class MainActivity : AppCompatActivity() {
 
-    @BindView(R.id.container)
-    internal lateinit var container: LinearLayout
+    private lateinit var container : LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ButterKnife.bind(this)
+        container = findViewById(R.id.container)
         setUpFragments()
     }
 
@@ -24,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val fragment = SearchPodcastFragment.newInstance()
-        container!!.removeAllViews()
+        container.removeAllViews()
         fragmentTransaction.add(R.id.container, fragment).commit()
     }
 
