@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -26,7 +24,6 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.TimeBar;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -39,14 +36,6 @@ import de.exercicse.jrossbach.podcast.search.PodcastItemViewModel;
 
 public class AudioPlayerFragment extends Fragment implements PodcastItemView, ExoPlayer.EventListener {
 
-    @BindView(R.id.title_text_view)
-    TextView titleTextView;
-    @BindView(R.id.duration)
-    TextView duration;
-    @BindView(R.id.play_button)
-    FloatingActionButton playButton;
-    @BindView(R.id.stop_button)
-    FloatingActionButton stopButton;
     @BindView(R.id.exo_progress)
     TimeBar seekBar;
     @BindView(R.id.exo_artwork)
@@ -76,24 +65,12 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView, Ex
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.exoplayer_fragment_layout, container, false);
+        View rootView = inflater.inflate(R.layout.audio_player_fragment, container, false);
         ButterKnife.bind(this, rootView);
         if (getArguments() != null) {
             podcastItemViewModel = getArguments().getParcelable("podcastItemViewModel");
         }
         return rootView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        titleTextView.setText(podcastItemViewModel.getTitle());
-        String imageUrl = podcastItemViewModel.getImageUrl();
-//        if (imageUrl != null) {
-//            Glide.with(this)
-//                    .load(imageUrl)
-//                    .into(imageView);
-//        }
     }
 
     private void initPlayer(Uri mediaUri) {
@@ -108,7 +85,7 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView, Ex
             // Prepare the MediaSource.
             String userAgent = Util.getUserAgent(getActivity(), "ClassicalMusicQuiz");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
-                    getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
+                    requireActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
             exoPlayer.prepare(mediaSource);
             exoPlayer.setPlayWhenReady(true);
         }
@@ -145,8 +122,7 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView, Ex
 
     @Override
     public void showProgress(boolean show) {
-
-//        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -164,7 +140,6 @@ public class AudioPlayerFragment extends Fragment implements PodcastItemView, Ex
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
 
     }
-
 
     @Override
     public void play() {

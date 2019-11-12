@@ -7,5 +7,5 @@ import retrofit2.http.Query
 interface PodcastApi {
 
     @GET("search")
-    fun getPodCastSearchResponse(@Query("q") q: String): Single<PodCastSearchResponse>
+    fun getPodCastSearchResponse(@Query("q") query: String): Single<PodCastSearchResponse>
 }

@@ -1,6 +1,8 @@
 package de.exercicse.jrossbach.podcast.search;
 
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public class SearchListPresenter extends Presenter<PodcastChannelView> {
 
     public void search(@NonNull String searchString) {
         view.showProgress(true);
-        subscribe(channelDataSource.loadChannelItems(searchString), new DisposableSingleObserver<List<PodcastItemViewModel>>() {
+        subscribe(channelDataSource.loadChannelItems(Uri.encode(searchString)), new DisposableSingleObserver<List<PodcastItemViewModel>>() {
             @Override
             public void onSuccess(List<PodcastItemViewModel> podcastItemViewModelList) {
                 view.showProgress(false);
