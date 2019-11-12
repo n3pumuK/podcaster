@@ -14,10 +14,10 @@ public class PodcastItemViewModel implements Parcelable {
     private String category;
     private String publishingDate;
     private String type;
-    private String length;
+    private int length;
     private Map<String, String> imageData;
 
-    public PodcastItemViewModel(final String title, final String url, final String type, final String length,
+    public PodcastItemViewModel(final String title, final String url, final String type, final int length,
                                 final Map<String, String> imageData, final String category,
                                 final String publishingDate){
         setTitle(title);
@@ -40,7 +40,7 @@ public class PodcastItemViewModel implements Parcelable {
         category = in.readString();
         publishingDate = in.readString();
         type = in.readString();
-        length = in.readString();
+        length = in.readInt();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class PodcastItemViewModel implements Parcelable {
         dest.writeString(category);
         dest.writeString(publishingDate);
         dest.writeString(type);
-        dest.writeString(length);
+        dest.writeInt(length);
     }
 
     @Override
@@ -119,11 +119,11 @@ public class PodcastItemViewModel implements Parcelable {
         this.type = type;
     }
 
-    public String getLength() {
+    public int getLength() {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(int length) {
         this.length = length;
     }
 

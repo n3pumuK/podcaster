@@ -27,12 +27,12 @@
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"/>
 
-        <SeekBar
-            android:id="@+id/seek_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="5dp" />
+        <!--<SeekBar-->
+            <!--android:id="@+id/seek_bar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:layout_marginTop="5dp" />-->
 
         <TextView
             android:id="@+id/duration"
@@ -65,12 +65,14 @@
 
     </LinearLayout>
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/player_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/playerView"
-        app:player_layout_id="@layout/exo_simple_player_view">
-    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+        android:layout_height="match_parent"
+        app:show_buffering="when_playing"
+        app:show_shuffle_button="true"/>
+
 
     <ProgressBar
         android:id="@+id/audio_progress_bar"

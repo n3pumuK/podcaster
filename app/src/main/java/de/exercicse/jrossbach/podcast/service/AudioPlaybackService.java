@@ -7,19 +7,21 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.media.MediaBrowserCompat;
-import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import de.exercicse.jrossbach.podcast.NotificationHelper;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.media.MediaBrowserServiceCompat;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.exercicse.jrossbach.podcast.NotificationHelper;
 
 
 public class AudioPlaybackService extends MediaBrowserServiceCompat implements MediaPlayer.OnCompletionListener,

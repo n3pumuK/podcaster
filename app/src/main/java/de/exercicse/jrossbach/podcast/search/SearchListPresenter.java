@@ -1,7 +1,7 @@
 package de.exercicse.jrossbach.podcast.search;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
@@ -10,15 +10,15 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class SearchListPresenter extends Presenter<PodcastChannelView> {
 
-    private PodcastChannelDataSource channelDataSource;
+    private PodcastDataSource channelDataSource;
 
     SearchListPresenter() {
-        channelDataSource = new PodcastChannelDataSource();
+        channelDataSource = new PodcastDataSource();
     }
 
-    public void loadChannel(@NonNull String url) {
+    public void search(@NonNull String searchString) {
         view.showProgress(true);
-        subscribe(channelDataSource.loadChannelItems(url), new DisposableSingleObserver<List<PodcastItemViewModel>>() {
+        subscribe(channelDataSource.loadChannelItems(searchString), new DisposableSingleObserver<List<PodcastItemViewModel>>() {
             @Override
             public void onSuccess(List<PodcastItemViewModel> podcastItemViewModelList) {
                 view.showProgress(false);

@@ -3,8 +3,8 @@ package de.exercicse.jrossbach.podcast.network;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 
+import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 

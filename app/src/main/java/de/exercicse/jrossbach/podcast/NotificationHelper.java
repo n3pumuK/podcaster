@@ -10,13 +10,14 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.NotificationCompat;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.media.session.MediaButtonReceiver;
 
 import static android.content.Intent.ACTION_VIEW;
 
@@ -138,7 +139,7 @@ public class NotificationHelper extends ContextWrapper {
                                 PlaybackStateCompat.ACTION_PLAY_PAUSE)))
 
                 // Take advantage of MediaStyle features
-                .setStyle(new NotificationCompat.MediaStyle()
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setMediaSession(mediaSessionCompat.getSessionToken())
                         .setShowActionsInCompactView(0)
 

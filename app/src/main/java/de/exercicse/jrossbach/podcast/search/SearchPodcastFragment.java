@@ -1,23 +1,25 @@
 package de.exercicse.jrossbach.podcast.search;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.exercicse.jrossbach.podcast.MainActivity;
 import de.exercicse.jrossbach.podcast.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class SearchPodcastFragment extends Fragment {
@@ -84,6 +86,6 @@ public class SearchPodcastFragment extends Fragment {
 
     private void search(String searchString) {
         PodcastListFragment podcastListFragment = PodcastListFragment.newInstance(searchString);
-        ((MainActivity) getActivity()).replaceCurrentFragment(podcastListFragment);
+        ((MainActivity) requireActivity()).replaceCurrentFragment(podcastListFragment);
     }
 }

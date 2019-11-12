@@ -1,30 +1,23 @@
 package de.exercicse.jrossbach.podcast.search;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import java.util.ArrayList;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.exercicse.jrossbach.podcast.MainActivity;
 import de.exercicse.jrossbach.podcast.R;
-import de.exercicse.jrossbach.podcast.network.ApiProvider;
-import de.exercicse.jrossbach.podcast.network.model.PodcastChannelResponse;
-import de.exercicse.jrossbach.podcast.network.model.PodcastItem;
 import de.exercicse.jrossbach.podcast.player.AudioPlayerFragment;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -74,7 +67,7 @@ public class PodcastListFragment extends Fragment implements PodcastChannelView 
     public void onStart() {
         super.onStart();
         presenter.attachView(this);
-        presenter.loadChannel(PODCAST_URL);
+        presenter.search(PODCAST_URL);
     }
 
     private void initRecyclerView() {
@@ -106,7 +99,7 @@ public class PodcastListFragment extends Fragment implements PodcastChannelView 
         Bundle args = new Bundle();
         args.putParcelable("podcastItemViewModel", podcastItemViewModel);
         fragment.setArguments(args);
-        ((MainActivity)getActivity()).replaceCurrentFragment(fragment);
+        ((MainActivity)requireActivity()).replaceCurrentFragment(fragment);
     }
 
 }

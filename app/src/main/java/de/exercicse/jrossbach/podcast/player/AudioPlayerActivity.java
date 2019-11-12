@@ -3,11 +3,12 @@ package de.exercicse.jrossbach.podcast.player;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.annotation.Nullable;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import de.exercicse.jrossbach.podcast.service.AudioPlaybackService;
 
