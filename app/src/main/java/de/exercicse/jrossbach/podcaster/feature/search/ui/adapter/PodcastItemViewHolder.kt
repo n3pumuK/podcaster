@@ -9,9 +9,13 @@ import androidx.cardview.widget.CardView
 import com.squareup.picasso.Picasso
 import de.exercicse.jrossbach.podcaster.R
 import de.exercicse.jrossbach.podcaster.base.ui.adapter.BaseViewHolder
+import de.exercicse.jrossbach.podcaster.feature.search.ui.PodCastItemClickListener
 import de.exercicse.jrossbach.podcaster.feature.search.ui.PodcastItemViewModel
 
-class PodcastItemViewHolder(itemView: View) : BaseViewHolder<PodcastItemViewModel>(itemView) {
+class PodcastItemViewHolder(
+    itemView: View,
+    private val clickListener: PodCastItemClickListener
+) : BaseViewHolder<PodcastItemViewModel>(itemView) {
 
     private val itemImage by lazy { itemView.findViewById<ImageView>(R.id.item_image) }
     private val itemTitleTextView by lazy { itemView.findViewById<TextView>(R.id.item_title_text_view) }
@@ -28,14 +32,19 @@ class PodcastItemViewHolder(itemView: View) : BaseViewHolder<PodcastItemViewMode
                 .load(it)
                 .into(itemImage)
         }
+        cardView.setOnClickListener { item.id?.let { it1 -> clickListener.onChannelItemClicked(it1) } }
     }
 
     companion object {
 
-        fun create(viewGroup: ViewGroup) =
+        fun create(
+            viewGroup: ViewGroup,
+            clickListener: PodCastItemClickListener
+        ) =
             PodcastItemViewHolder(
                 LayoutInflater.from(viewGroup.context)
-                    .inflate(R.layout.podcast_item, viewGroup, false)
+                    .inflate(R.layout.podcast_item, viewGroup, false),
+                clickListener
             )
     }
 }
