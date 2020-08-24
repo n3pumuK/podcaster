@@ -5,7 +5,7 @@
                     android:updatePeriodMillis="86400000"
                     android:previewImage="@drawable/example_appwidget_preview"
                     android:initialLayout="@layout/podcast_player_widget"
-                    android:configure="de.exercicse.jrossbach.podcast.PodcastPlayerWidgetConfigureActivity"
+                    android:configure="de.exercicse.jrossbach.podcaster.feature.widget.ui.PodcastPlayerWidgetConfigureActivity"
                     android:resizeMode="horizontal|vertical"
                     android:widgetCategory="home_screen"
                     android:initialKeyguardLayout="@layout/podcast_player_widget">
