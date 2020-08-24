@@ -16,14 +16,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpFragments() {
-        container.removeAllViews()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.container, SearchPodcastFragment())
-            .commit()
+        addFragment(SearchPodcastFragment())
     }
 
-    fun replaceCurrentFragment(fragment: Fragment) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null).commit()
+    fun addFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
