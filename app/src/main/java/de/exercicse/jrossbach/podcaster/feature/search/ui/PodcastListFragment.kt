@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.exercicse.jrossbach.podcaster.R
 import de.exercicse.jrossbach.podcaster.base.ui.BaseFragment
+import de.exercicse.jrossbach.podcaster.feature.channel.ui.PodcastChannelFragment
 import de.exercicse.jrossbach.podcaster.feature.player.ui.AudioPlayerFragment
 import de.exercicse.jrossbach.podcaster.feature.search.ui.adapter.PodcastItemAdapter
+import de.exercicse.jrossbach.podcaster.ui.MainActivity
 import kotlinx.android.synthetic.main.podcast_list_fragment.*
 import javax.inject.Inject
 
-class PodcastListFragment : BaseFragment(), PodcastChannelView {
+class PodcastListFragment : BaseFragment(), PodcastChannelView, PodCastItemClickListener {
 
     private lateinit var podcastItemAdapter: PodcastItemAdapter
 
@@ -37,7 +39,7 @@ class PodcastListFragment : BaseFragment(), PodcastChannelView {
     }
 
     private fun initRecyclerView() {
-        podcastItemAdapter = PodcastItemAdapter()
+        podcastItemAdapter = PodcastItemAdapter(this)
         podcast_recycler_view.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = podcastItemAdapter
@@ -69,6 +71,11 @@ class PodcastListFragment : BaseFragment(), PodcastChannelView {
             visibility = View.VISIBLE
             text = message
         }
+    }
+
+    override fun onChannelItemClicked(id: String) {
+        (requireActivity() as MainActivity)
+            .addFragment(PodcastChannelFragment.newInstance(id))
     }
 
     companion object {

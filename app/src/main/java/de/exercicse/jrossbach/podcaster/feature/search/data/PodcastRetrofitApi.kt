@@ -11,6 +11,6 @@ interface PodcastRetrofitApi {
     @GET("search")
     fun getPodCastSearchResponse(@Query("q") query: String): Single<PodCastSearchResponse>
 
-    @GET("/podcasts/{id}")
+    @GET("podcasts/{id}")
     fun getPodcastMetaInfo(@Path("id") podcastId: String): Single<PodcastResponse>
 }

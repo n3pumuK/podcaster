@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class PodcastItemViewModel constructor(
+    val id: String?,
     val title: String?,
     val url: String?,
     val imageUrl: String?,
@@ -17,10 +18,12 @@ data class PodcastItemViewModel constructor(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(url)
         parcel.writeString(imageUrl)

@@ -14,7 +14,8 @@ class PodcastDataSource @Inject constructor(private val podcastApi: PodcastApi) 
         return podcastApi.getPodCastSearchResponse(Uri.encode(search)).map { response: PodCastSearchResponse ->
             response.results.map {
                 PodcastItemViewModel(
-                    title = it.podcast_title_original,
+                    id = it.podcast.id,
+                    title = it.podcast.title_original,
                     category = it.description_original,
                     publishingDate = it.pub_date_ms,
                     url = it.audio,
